@@ -1054,17 +1054,21 @@ html, body {
   
   /* Hint bar */
   #hint-bar { 
-    font-size: 0.7rem; 
-    gap: 0.8rem; 
-    padding: 0.6rem 1rem;
-    width: 90vw;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    font-size: 0.62rem; /* Slightly smaller for tight fit */
+    gap: 0.4rem; /* Reduced gap */
+    padding: 0.5rem 0.8rem;
+    width: 94vw;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3x2 grid for mobile */
+    text-align: center;
     border-radius: 1rem;
-    bottom: 1rem;
+    bottom: 0.8rem;
   }
-  #hint-bar span { padding: 0.2rem; }
+  #hint-bar span { 
+    padding: 0.3rem 0;
+    border: 1px solid rgba(0, 245, 255, 0.1);
+    border-radius: 0.4rem;
+  }
 
   /* Panels */
   .glass-panel { 
@@ -1098,10 +1102,16 @@ html, body {
   .about-section p, .about-card p { font-size: 0.8rem; }
   
   /* Phone Panel */
-  .phone-panel { width: 92vw; border-radius: 1.5rem; }
-  .phone-screen { min-height: 480px; padding: 1rem; }
-  .linkedin-logo { width: 55px; height: 55px; font-size: 1.8rem; }
-  .linkedin-cta { padding: 0.6rem 1.2rem; font-size: 0.7rem; }
+  .phone-panel { width: 94vw; border-radius: 1.5rem; }
+  .phone-screen { 
+    min-height: 440px; 
+    padding: 0.8rem;
+    justify-content: flex-start;
+  }
+  .phone-app { gap: 0.4rem; padding: 0.5rem 0; }
+  .linkedin-logo { width: 48px; height: 48px; font-size: 1.5rem; margin-bottom: 0.2rem; }
+  .linkedin-cta { padding: 0.5rem 1rem; font-size: 0.65rem; margin-top: 1rem; }
+  .phone-status { margin-bottom: 1rem; }
 }
 
 @media (max-width: 480px) {

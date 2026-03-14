@@ -80,13 +80,13 @@ function updateCameraForScreen() {
   if (aspect < 0.6) {
     // Very narrow portrait (Mobile)
     camera.fov = 60;
-    baseCameraY = 10;
-    baseCameraZ = 12;
+    baseCameraY = 12; // Increased from 10
+    baseCameraZ = 15; // Increased from 12
   } else if (aspect < 1.0) {
     // Portrait / Square (Tablet)
     camera.fov = 55;
-    baseCameraY = 9;
-    baseCameraZ = 11;
+    baseCameraY = 10; // Increased from 9
+    baseCameraZ = 13; // Increased from 11
   } else if (window.innerWidth < 1024) {
     // Small Desktop / Landscape tablet
     camera.fov = 50;
