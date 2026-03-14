@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rishi Abinandhan — Creative Developer Portfolio</title>
+  <meta name="description" content="Futuristic 3D interactive desk portfolio of Rishi Abinandhan, Data Science & AI Developer." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- 3D Canvas -->
+  <canvas id="canvas3d"></canvas>
+
+  <!-- Intro Overlay -->
+  <div id="intro-overlay">
+    <div id="intro-text">
+      <div id="intro-name">Rishi Abinandhan</div>
+      <div id="intro-subtitle">Creative Developer Portfolio</div>
+      <div id="intro-hint">Click any object on the desk to explore</div>
+    </div>
+    <div id="intro-loader">
+      <div id="loader-bar"><div id="loader-fill"></div></div>
+      <div id="loader-label">Initializing workspace...</div>
+    </div>
+  </div>
+
+  <!-- Hint bar (shown after intro) -->
+  <div id="hint-bar" class="hidden">
+    <span>🖥️ Laptop</span>
+    <span>📓 Notebook</span>
+    <span>📱 Tablet</span>
+    <span>📲 Phone</span>
+    <span>📄 Resume</span>
+    <span>☕ Mug</span>
+  </div>
+
+  <!-- Welcome Top Text -->
+  <div id="welcome-text" class="hidden">
+    <h1>Hi this is Rishi</h1>
+    <p>Every object tells a story — click around the desk to explore mine.</p>
+  </div>
+
+  <!-- Close button for panels -->
+  <button id="close-btn" class="hidden" aria-label="Close panel">✕</button>
+
+  <!-- ====== PANELS ====== -->
+
+  <!-- Projects Panel (Laptop) -->
+  <div id="panel-projects" class="glass-panel hidden">
+    <div class="panel-header">
+      <span class="panel-icon">🖥️</span>
+      <h2 class="panel-title">Projects</h2>
+    </div>
+    <div class="projects-grid" id="projects-grid">
+      <!-- filled by JS -->
+    </div>
+  </div>
+
+  <!-- About Panel (Notebook) -->
+  <div id="panel-about" class="glass-panel hidden">
+    <div class="panel-header">
+      <span class="panel-icon">📓</span>
+      <h2 class="panel-title">About Me</h2>
+    </div>
+    <div class="about-content">
+      <div class="about-avatar">
+        <div class="avatar-ring">RA</div>
+      </div>
+      <h3 class="about-name">Rishi Abinandhan.S</h3>
+      <p class="about-tagline">Data Science &amp; AI Enthusiast | Creative Developer</p>
+      <div class="about-section">
+        <h4>👋 Introduction</h4>
+        <p>Enthusiastic and curious learner passionate in the field of Data Science, ML, and Artificial Intelligence. I enjoy exploring how data can drive smart decisions and how AI can solve real-world problems.</p>
+      </div>
+      <div class="about-section">
+        <h4>🚀 Journey</h4>
+        <p>Currently building my skills in data analysis, machine learning, and AI — with a strong interest in applying what I learn to practical projects. Excited to grow, collaborate, and contribute in a data-driven environment.</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-card">
+          <h4>🎓 Education</h4>
+          <p><strong>MCA</strong> — University of Madras (2024–2026)</p>
+          <p><strong>BCA</strong> — Dwaraka Doss Govardhan Doss Vaishnav College (2021–2024)</p>
+          <p><strong>12th</strong> — St. Joseph Matriculation Higher Secondary (2007–2021)</p>
+        </div>
+        <div class="about-card">
+          <h4>💼 Experience</h4>
+          <p><strong>Intern</strong> — NASO Technologies Pvt. Ltd.</p>
+          <p>Telecom Customer Churn Prediction using Random Forest under Project KAVIGAL.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Skills Panel (Tablet) -->
+  <div id="panel-skills" class="glass-panel hidden">
+    <div class="panel-header">
+      <span class="panel-icon">📱</span>
+      <h2 class="panel-title">Skills</h2>
+    </div>
+    <div class="skills-content">
+      <div class="skills-grid" id="skills-grid">
+        <!-- filled by JS -->
+      </div>
+      <div class="certs-section">
+        <h3 class="certs-title">📜 Certifications</h3>
+        <div class="certs-grid">
+          <div class="cert-badge">Data Science — Python<br/><small>Cognitive.ai (IBM)</small></div>
+          <div class="cert-badge">Data Analytics<br/><small>Cognitive.ai (IBM)</small></div>
+          <div class="cert-badge">Microsoft Excel<br/><small>Cognitive.ai (IBM)</small></div>
+          <div class="cert-badge">Power BI<br/><small>simplilearn (Microsoft)</small></div>
+          <div class="cert-badge">SQL & Relational Databases<br/><small>Cognitive.ai (IBM)</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LinkedIn Panel (Smartphone) -->
+  <div id="panel-linkedin" class="glass-panel hidden phone-panel">
+    <div class="phone-screen">
+      <div class="phone-status">
+        <span class="phone-time" id="phone-time">12:00</span>
+        <span>📶 ●●●</span>
+      </div>
+      <div class="phone-app">
+        <div class="linkedin-logo">in</div>
+        <h3>LinkedIn</h3>
+        <p class="linkedin-name">Rishi Abinandhan.S</p>
+        <p class="linkedin-role">MCA Student | Data Science &amp; AI</p>
+        <p class="linkedin-loc">📍 Chennai, Tamil Nadu</p>
+        <a id="linkedin-btn" href="https://www.linkedin.com/in/rishi-abinandhan-bb6047271?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="linkedin-cta glow-btn">
+          Open LinkedIn Profile →
+        </a>
+      </div>
+      <div class="phone-home-bar"></div>
+    </div>
+  </div>
+
+  <!-- Resume Panel (Paper) -->
+  <div id="panel-resume" class="glass-panel hidden resume-panel">
+    <div class="panel-header">
+      <span class="panel-icon">📄</span>
+      <h2 class="panel-title">Resume</h2>
+    </div>
+    <div class="resume-preview">
+      <div class="resume-mock">
+        <div class="resume-header-mock">
+          <h2>RISHI ABINANDHAN.S</h2>
+          <p>rishiabinandhan2004@gmail.com &nbsp;|&nbsp; +91 8610764005</p>
+        </div>
+        <div class="resume-body-mock">
+          <div class="resume-col">
+            <h4>Profile</h4>
+            <p>Data Science &amp; AI enthusiast | ML Developer | Creative Developer</p>
+            <h4>Experience</h4>
+            <p>Intern — NASO Technologies Pvt. Ltd.</p>
+            <p>Customer Churn Prediction (Random Forest)</p>
+            <p>Car Price Prediction System</p>
+          </div>
+          <div class="resume-col">
+            <h4>Education</h4>
+            <p>MCA — University of Madras (2024–2026)</p>
+            <p>BCA — DDGDVC (2021–2024)</p>
+            <h4>Skills</h4>
+            <p>Python • ML • Pandas • NumPy • Streamlit • PowerBI • SQL</p>
+          </div>
+        </div>
+      </div>
+      <a id="resume-download-btn" href="#" class="glow-btn download-btn" download>
+        ⬇ Download Resume (PDF)
+      </a>
+      <p class="resume-note">Note: Place your resume PDF as <code>resume.pdf</code> in the project folder.</p>
+    </div>
+  </div>
+
+  <!-- Contact Panel (Coffee Mug) -->
+  <div id="panel-contact" class="glass-panel hidden">
+    <div class="panel-header">
+      <span class="panel-icon">☕</span>
+      <h2 class="panel-title">Contact Me</h2>
+    </div>
+    <div class="contact-content">
+      <p class="contact-intro">Got a project idea or want to collaborate? Let's connect!</p>
+      <form id="contact-form" class="contact-form" onsubmit="handleContactSubmit(event)">
+        <div class="form-group">
+          <label for="contact-name">Name</label>
+          <input type="text" id="contact-name" placeholder="Your name" required autocomplete="name" />
+        </div>
+        <div class="form-group">
+          <label for="contact-email">Email</label>
+          <input type="email" id="contact-email" placeholder="your@email.com" required autocomplete="email" />
+        </div>
+        <div class="form-group">
+          <label for="contact-msg">Message</label>
+          <textarea id="contact-msg" rows="4" placeholder="Tell me about your project..." required></textarea>
+        </div>
+        <button type="submit" class="glow-btn send-btn" id="send-btn">
+          <span id="send-label">Send Message</span>
+          <div id="send-particles"></div>
+        </button>
+      </form>
+      <div id="contact-success" class="contact-success hidden">
+        <div class="success-icon">✓</div>
+        <p>Message sent! I'll get back to you soon.</p>
+      </div>
+      <div class="contact-direct">
+        <p>📧 <a href="mailto:rishiabinandhan2004@gmail.com">rishiabinandhan2004@gmail.com</a></p>
+        <p>📞 +91 8610764005</p>
+        <p>📍 Chennai, Tamil Nadu</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hover tooltip -->
+  <div id="tooltip" class="hidden"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
