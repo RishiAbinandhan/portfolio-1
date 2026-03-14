@@ -79,14 +79,14 @@ function updateCameraForScreen() {
   
   if (aspect < 0.6) {
     // Very narrow portrait (Mobile)
-    camera.fov = 75;
-    baseCameraY = 13;
-    baseCameraZ = 17;
+    camera.fov = 60;
+    baseCameraY = 10;
+    baseCameraZ = 12;
   } else if (aspect < 1.0) {
     // Portrait / Square (Tablet)
-    camera.fov = 65;
-    baseCameraY = 10;
-    baseCameraZ = 13;
+    camera.fov = 55;
+    baseCameraY = 9;
+    baseCameraZ = 11;
   } else if (window.innerWidth < 1024) {
     // Small Desktop / Landscape tablet
     camera.fov = 50;
@@ -115,10 +115,10 @@ window.addEventListener('resize', () => {
 });
 
 // ─── LIGHTS ──────────────────────────────────────────
-const ambientLight = new THREE.AmbientLight(0x1a1a30, 0.6);
+const ambientLight = new THREE.AmbientLight(0x1a1a30, 1.2);
 scene.add(ambientLight);
 
-const rimLight = new THREE.DirectionalLight(0x4433ff, 0.5);
+const rimLight = new THREE.DirectionalLight(0x4433ff, 0.7);
 rimLight.position.set(-5, 8, -5);
 scene.add(rimLight);
 
@@ -130,26 +130,26 @@ lampLight.shadow.mapSize.set(512, 512);
 scene.add(lampLight);
 
 // Subtle fill light from front
-const fillLight = new THREE.DirectionalLight(0x00F5FF, 0.25);
+const fillLight = new THREE.DirectionalLight(0x00F5FF, 0.6);
 fillLight.position.set(0, 4, 8);
 scene.add(fillLight);
 
 // ─── MATERIALS ───────────────────────────────────────
 const deskMat = new THREE.MeshStandardMaterial({
-  color: 0x825424, // Brighter woody brown
-  roughness: 0.55,
-  metalness: 0.1
+  color: 0x5a3a1a, // Darker, richer wood
+  roughness: 0.45,
+  metalness: 0.05
 });
 const deskLegMat = new THREE.MeshStandardMaterial({ color: 0x2a1a06, roughness: 0.7 });
-const laptopBodyMat = new THREE.MeshStandardMaterial({ color: 0x222232, roughness: 0.3, metalness: 0.7 });
-const laptopScreenMat = new THREE.MeshStandardMaterial({ color: 0x060611, roughness: 0.2, metalness: 0.2, emissive: 0x000000 });
+const laptopBodyMat = new THREE.MeshStandardMaterial({ color: 0x333344, roughness: 0.3, metalness: 0.8 });
+const laptopScreenMat = new THREE.MeshStandardMaterial({ color: 0x060611, roughness: 0.2, metalness: 0.2, emissive: 0x00F5FF, emissiveIntensity: 0 });
 const notebookMat = new THREE.MeshStandardMaterial({ color: 0x1a3a1a, roughness: 0.8 });
 const notebookPageMat = new THREE.MeshStandardMaterial({ color: 0xf0ede0, roughness: 0.95 });
 const tabletMat = new THREE.MeshStandardMaterial({ color: 0x111120, roughness: 0.25, metalness: 0.6 });
 const phoneMat = new THREE.MeshStandardMaterial({ color: 0x0d0d1a, roughness: 0.2, metalness: 0.5 });
 const paperMat = new THREE.MeshStandardMaterial({ color: 0xf5f0e8, roughness: 0.98 });
-const mugMat = new THREE.MeshStandardMaterial({ color: 0x8B5CF6, roughness: 0.5, metalness: 0.05 });
-const mugLiquidMat = new THREE.MeshStandardMaterial({ color: 0x3d1a00, roughness: 0.9 });
+const mugMat = new THREE.MeshStandardMaterial({ color: 0x8B5CF6, roughness: 0.2, metalness: 0.1 });
+const mugLiquidMat = new THREE.MeshStandardMaterial({ color: 0x2d1400, roughness: 0.3, metalness: 0.1 });
 const lampBaseMat = new THREE.MeshStandardMaterial({ color: 0xc0a060, roughness: 0.4, metalness: 0.5 });
 const lampShade = new THREE.MeshStandardMaterial({ color: 0xffe0a0, roughness: 0.6, emissive: 0x000000 });
 const glowMat = new THREE.MeshStandardMaterial({ color: 0x00F5FF, emissive: 0x00F5FF, emissiveIntensity: 0.8 });
@@ -209,9 +209,25 @@ screenDisplay.rotation.x = -1.1;
 laptopGroup.add(screenDisplay);
 
 // Keyboard area
-const keyboard = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.005, 1.2), new THREE.MeshStandardMaterial({ color: 0x1a1a2a, roughness: 0.5 }));
-keyboard.position.set(0, 0.056, 0.1);
+const keyboard = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.005, 1.0), new THREE.MeshStandardMaterial({ color: 0x1a1a2a, roughness: 0.5 }));
+keyboard.position.set(0, 0.056, -0.05);
 laptopGroup.add(keyboard);
+
+// Trackpad
+const trackpad = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.005, 0.45), new THREE.MeshStandardMaterial({ color: 0x2a2a3a, roughness: 0.4, metalness: 0.2 }));
+trackpad.position.set(0, 0.056, 0.6);
+laptopGroup.add(trackpad);
+
+// Webcam
+const webcam = new THREE.Mesh(new THREE.CircleGeometry(0.015, 16), new THREE.MeshBasicMaterial({ color: 0x222222 }));
+webcam.position.set(0, 1.6, -0.76);
+webcam.rotation.x = -1.1;
+laptopGroup.add(webcam);
+
+// Laptop Screen Glow
+const laptopGlow = new THREE.PointLight(0x00F5FF, 0.8, 4);
+laptopGlow.position.set(0, 0.5, 0);
+laptopGroup.add(laptopGlow);
 
 // ─── NOTEBOOK ──────────────────────────────────────────
 const notebookGroup = new THREE.Group();
@@ -251,6 +267,16 @@ const tabletScreen = new THREE.Mesh(new THREE.BoxGeometry(1.26, 0.01, 1.85), new
 tabletScreen.position.y = 0.038;
 tabletGroup.add(tabletScreen);
 
+// Tablet Button
+const tBtn = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.04, 0.04), laptopBodyMat);
+tBtn.position.set(0.4, 0, -1.0);
+tabletGroup.add(tBtn);
+
+// Tablet Glow
+const tabletGlow = new THREE.PointLight(0x00F5FF, 0.4, 3);
+tabletGlow.position.set(0, 0.3, 0);
+tabletGroup.add(tabletGlow);
+
 // ─── SMARTPHONE ────────────────────────────────────────
 const phoneGroup = new THREE.Group();
 scene.add(phoneGroup);
@@ -263,6 +289,22 @@ phoneGroup.add(phoneBody);
 const phoneScreen = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.01, 1.12), new THREE.MeshStandardMaterial({ color: 0x030308, roughness: 0.05, emissive: 0x000000 }));
 phoneScreen.position.y = 0.04;
 phoneGroup.add(phoneScreen);
+
+// Phone home indicator / button
+const pBtn = new THREE.Mesh(new THREE.CircleGeometry(0.05, 16), new THREE.MeshStandardMaterial({ color: 0x333333, roughness: 0.5 }));
+pBtn.position.set(0, 0.041, 0.54);
+pBtn.rotation.x = -Math.PI / 2;
+phoneGroup.add(pBtn);
+
+// Phone speaker/camera
+const pCam = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.01, 0.04), new THREE.MeshBasicMaterial({ color: 0x111111 }));
+pCam.position.set(0, 0.041, -0.54);
+phoneGroup.add(pCam);
+
+// Phone Glow
+const phoneGlow = new THREE.PointLight(0x8B5CF6, 0.5, 2);
+phoneGlow.position.set(0, 0.2, 0);
+phoneGroup.add(phoneGlow);
 
 // ─── RESUME PAPER ──────────────────────────────────────
 const paperGroup = new THREE.Group();
@@ -298,13 +340,13 @@ mugInner.position.y = 0.33;
 mugGroup.add(mugInner);
 // mug handle
 const handleCurve = new THREE.QuadraticBezierCurve3(
-  new THREE.Vector3(0.3, 0.15, 0),
-  new THREE.Vector3(0.55, 0.15, 0),
-  new THREE.Vector3(0.3, -0.15, 0)
+  new THREE.Vector3(0.28, 0.2, 0),
+  new THREE.Vector3(0.6, 0.2, 0),
+  new THREE.Vector3(0.28, -0.2, 0)
 );
 const handlePoints = handleCurve.getPoints(16);
 const handleGeo = new THREE.TubeGeometry(
-  new THREE.CatmullRomCurve3(handlePoints), 16, 0.04, 8, false
+  new THREE.CatmullRomCurve3(handlePoints), 16, 0.045, 8, false
 );
 const handle = new THREE.Mesh(handleGeo, mugMat);
 mugGroup.add(handle);
@@ -333,6 +375,13 @@ shade.position.set(0.6, 2.58, 0);
 shade.rotation.z = Math.PI;
 lampGroup.add(shade);
 
+// bulb casing detail
+const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.12, 16, 16), new THREE.MeshStandardMaterial({ 
+  color: 0xffffee, emissive: 0xFFB347, emissiveIntensity: 1 
+}));
+bulb.position.set(0.6, 2.45, 0);
+lampGroup.add(bulb);
+
 // ─── PARTICLES ─────────────────────────────────────────
 const PARTICLE_COUNT = 280;
 const pGeo = new THREE.BufferGeometry();
@@ -350,8 +399,8 @@ for (let i = 0; i < PARTICLE_COUNT; i++) {
 
 pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
 const pMat = new THREE.PointsMaterial({
-  color: 0xffeedd,
-  size: 0.035,
+  color: 0xffffff,
+  size: 0.08,
   sizeAttenuation: true,
   transparent: true,
   opacity: 0,
@@ -363,9 +412,9 @@ scene.add(particles);
 // ─── CLICKABLE OBJECTS MAP ─────────────────────────────
 const clickables = [
   { group: laptopGroup,  name: 'laptop',   label: '🖥️ Projects',  panel: 'panel-projects'  },
-  { group: notebookGroup,name: 'notebook', label: '📓 About Me',  panel: 'panel-about'     },
+  { group: notebookGroup,name: 'notebook', label: '📓 About me',  panel: 'panel-about'     },
   { group: tabletGroup,  name: 'tablet',   label: '📱 Skills',    panel: 'panel-skills'    },
-  { group: phoneGroup,   name: 'phone',    label: '📲 LinkedIn',  panel: 'panel-linkedin'  },
+  { group: phoneGroup,   name: 'phone',    label: '📲 Connections', panel: 'panel-linkedin'  },
   { group: paperGroup,   name: 'paper',    label: '📄 Resume',    panel: 'panel-resume'    },
   { group: mugGroup,     name: 'mug',      label: '☕ Contact',   panel: 'panel-contact'   }
 ];
@@ -486,6 +535,9 @@ function openPanel(panelId) {
   panel.classList.remove('hidden');
   panel.classList.add('active');
   document.getElementById('close-btn').classList.remove('hidden');
+  document.getElementById('modal-overlay').classList.remove('hidden');
+  document.getElementById('modal-overlay').classList.add('active');
+  tooltip.classList.add('hidden');
 
   // Animate bars if skills
   if (panelId === 'panel-skills') {
@@ -497,7 +549,7 @@ function openPanel(panelId) {
   }
 
   gsap.fromTo(panel,
-    { opacity: 0, scale: 0.85, y: 30 },
+    { opacity: 0, scale: 0.85, xPercent: -50, yPercent: -50, y: 30 },
     { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: 'back.out(1.7)' }
   );
 
@@ -522,6 +574,10 @@ function closePanel() {
     }
   });
 
+  const overlay = document.getElementById('modal-overlay');
+  overlay.classList.remove('active');
+  setTimeout(() => overlay.classList.add('hidden'), 500);
+
   if (activePanel === 'panel-projects') {
     gsap.to(laptopScreenMat, { emissiveIntensity: 0, duration: 0.5 });
   }
@@ -532,6 +588,7 @@ function closePanel() {
 }
 
 document.getElementById('close-btn').addEventListener('click', closePanel);
+document.getElementById('modal-overlay').addEventListener('click', closePanel);
 window.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
 
 // ─── CLICK HANDLER ────────────────────────────────────
@@ -655,7 +712,7 @@ function runIntro() {
   }});
 
   // Particles fade in
-  gsap.to(pMat, { opacity: 0.55, duration: 2, delay: 2, ease: 'power2.inOut' });
+  gsap.to(pMat, { opacity: 0.9, duration: 2, delay: 2, ease: 'power2.inOut' });
 
   // Camera zoom intro
   camera.position.set(0, baseCameraY + 7, baseCameraZ + 9);
